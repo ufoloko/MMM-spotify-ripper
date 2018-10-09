@@ -395,19 +395,18 @@ To install pyenv using `pyenv-installer <https://github.com/yyuu/pyenv-installer
 
     $ curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     ## restart terminal ##
-    $ pyenv install 2.7.10  # or whatever version of python you want
-    $ pyenv global 2.7.10
-    $ python -V             # should say Python 2.7.10
+    $ pyenv install 2.7.13  # or whatever version of python you want. 2.7.10 does not work properly with the current version of pyenv.
+    $ pyenv global 2.7.13
+    $ python -V             # should say Python 2.7.13
 
 To install spotify-ripper once pyenv is setup:
 
 .. code:: bash
 
-    $ sudo apt-get install lame build-essential libffi-dev
-    $ wget https://developer.spotify.com/download/libspotify/libspotify-12.1.51-Linux-x86_64-release.tar.gz # (assuming 64-bit)
-    $ tar xvf libspotify-12.1.51-Linux-x86_64-release.tar.gz
-    $ cd libspotify-12.1.51-Linux-x86_64-release/
-    $ sudo make install prefix=/usr/local
+    $ sudo apt-get install lame build-essential libffi-dev 
+    $ wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add - #add mopidy's libspotify repository
+    $ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/stretch.list   #valid for Debian Stretch.
+    $ sudo apt-get update && sudo apt-get install libspotify12 libspotify-dev python-spotify #install libspotify from mopidy's repository
     $ git clone https://github.com/hbashton/spotify-ripper.git && cd spotify-ripper && sudo python setup.py install
     $ pyenv rehash
 
