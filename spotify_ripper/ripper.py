@@ -248,6 +248,7 @@ class Ripper(threading.Thread):
 
             if args.playlist_sync and self.current_playlist:
                 self.sync = Sync(args, self)
+                print("CHECK: Sync playlist")
                 self.sync.sync_playlist(self.current_playlist)
 
             # ripping loop
@@ -413,6 +414,7 @@ class Ripper(threading.Thread):
             track = link.as_track()
             return iter([track])
         elif link.type == spotify.LinkType.PLAYLIST:
+            print("Checked: Link is a playlist!")
             self.current_playlist = link.as_playlist()
             attempt_count = 1
             while self.current_playlist is None:
@@ -427,8 +429,9 @@ class Ripper(threading.Thread):
                 self.current_playlist = link.as_playlist()
                 attempt_count += 1
 
-            print('Loading playlist...')
+            print('Loading playlist... (check!)')
             self.current_playlist.load()
+            print('(check!) playlist loaded')
             return iter(self.current_playlist.tracks)
         elif link.type == spotify.LinkType.STARRED:
             link_user = link.as_user()
