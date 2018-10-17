@@ -248,6 +248,7 @@ class Ripper(threading.Thread):
 
             if args.playlist_sync and self.current_playlist:
                 self.sync = Sync(args, self)
+                print("CHECK: Sync playlist")
                 self.sync.sync_playlist(self.current_playlist)
 
             # ripping loop
