@@ -10,6 +10,8 @@ from datetime import datetime
 import os
 import sys
 import base64
+import urllib
+
 
 
 def set_metadata_tags(args, audio_file, idx, track, ripper):
@@ -69,7 +71,19 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
             genres_ascii = [to_ascii(genre) for genre in genres]
 
         # cover art image
-        image = track.album.cover()
+        def get_cover_image(image_link):
+            image_link = 'http://open.spotify.com%s' % (
+                image_link[len('spotify'):].replace(':', '/'))
+            cover_file = urllib.urlretrieve(image_link)[0]
+            
+            with open(cover_file, "rb") as f:
+                if f.mode == "rb":
+                    return f.read()
+                else:
+                    return None
+            
+        image_link = str(track.album.cover(2).link)
+        image = get_cover_image(image_link)
 
         def tag_to_ascii(_str, _str_ascii):
             return _str if args.ascii_path_only else _str_ascii
@@ -82,13 +96,13 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
 
         def save_cover_image(embed_image_func):
             if image is not None:
-                image.load()
+                
                 def write_image(file_name):
                     cover_path = os.path.dirname(audio_file)
                     cover_file = os.path.join(cover_path, file_name)
                     if not path_exists(cover_file):
                         with open(cover_file, "wb") as f:
-                            f.write(image.data)
+                            f.write(image)
 
                 if args.cover_file is not None:
                     write_image(args.cover_file[0])
@@ -109,7 +123,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                         mime='image/jpeg',
                         type=3,
                         desc='Front Cover',
-                        data=image.data
+                        data=image
                     )
                 )
 
@@ -168,7 +182,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                         mime='image/jpeg',
                         type=3,
                         desc='Front Cover',
-                        data=image.data
+                        data=image
                     )
                 )
 
@@ -224,7 +238,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                 pic.type = 3
                 pic.mime = "image/jpeg"
                 pic.desc = "Front Cover"
-                pic.data = image.data
+                pic.data = image
                 if args.output_type == "flac":
                     audio.add_picture(pic)
                 else:
@@ -262,7 +276,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
                 audio.add_tags()
 
             def embed_image():
-                audio.tags["covr"] = mp4.MP4Cover(image.data)
+                audio.tags["covr"] = mp4.MP4Cover(image)
 
             save_cover_image(embed_image)
 
@@ -289,7 +303,7 @@ def set_metadata_tags(args, audio_file, idx, track, ripper):
             audio.add_tags()
 
             def embed_image():
-                audio.tags[str("covr")] = m4a.M4ACover(image.data)
+                audio.tags[str("covr")] = m4a.M4ACover(image)
 
             save_cover_image(embed_image)
 
