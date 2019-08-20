@@ -7,7 +7,7 @@ import os
 
 def create_default_dir():
     default_dir = os.path.normpath(os.path.realpath(
-        (os.path.join(os.path.expanduser("~"), ".spotify-ripper"))))
+        (os.path.join(os.path.expanduser("~"), "MagicMirror/modules/MMM-spotify-ripper/.spotify-ripper"))))
     if not os.path.exists(default_dir):
         print("Creating default settings directory: " +
             default_dir)
@@ -40,7 +40,7 @@ setup(
 
     # Requirements
     install_requires=[
-        'pyspotify==2.0.5',
+        'pyspotify==2.1.0',
         'colorama==0.3.3',
         'mutagen==1.30',
         'requests>=2.3.0',
