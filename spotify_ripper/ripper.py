@@ -7,7 +7,7 @@ from colorama import Fore, Style
 from spotify_ripper.utils import *
 from spotify_ripper.tags import set_metadata_tags
 from spotify_ripper.progress import Progress
-from post_actions import PostActions
+from spotify_ripper.post_actions import PostActions
 from spotify_ripper.web import WebAPI
 from spotify_ripper.sync import Sync
 from spotify_ripper.eventloop import EventLoop
