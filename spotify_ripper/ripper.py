@@ -433,26 +433,6 @@ class Ripper(threading.Thread):
                 trackList.append(self.session.get_link(i).as_track())
             return iter(trackList)
 
-            # self.current_playlist = link.as_playlist()
-            # attempt_count = 1
-            # while self.current_playlist is None:
-            #     if attempt_count > 3:
-            #         print(Fore.RED + "Could not load playlist..." +
-            #               Fore.RESET)
-            #         return iter([])
-            #     print("Attempt " + str(attempt_count) + " failed: Spotify " +
-            #           "returned None for playlist, trying again in 5 " +
-            #           "seconds...")
-            #     time.sleep(5.0)
-            #     self.current_playlist = link.as_playlist()
-            #     attempt_count += 1
-
-            # print('Loading playlist... (check!)')
-            # self.current_playlist.load()
-            # print('(check!) playlist loaded')
-            # return iter(get_playlist_tracks(self.session.user.canonical_name, uri).get('items'))
-            #return iter(self.current_playlist.tracks)
-            #print(self.current_playlist.tracks)
         elif link.type == spotify.LinkType.STARRED:
             link_user = link.as_user()
 
