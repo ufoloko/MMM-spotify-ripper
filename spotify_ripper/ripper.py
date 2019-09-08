@@ -229,8 +229,8 @@ class Ripper(threading.Thread):
             for idx, track in enumerate(tracks):
 
                 # ignore local tracks
-                #if track.is_local:
-                #    continue
+                if track.is_local:
+                    continue
 
                 audio_file = self.format_track_path(idx, track)
                 all_tracks.append((track, audio_file))
